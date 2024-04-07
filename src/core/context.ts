@@ -4,7 +4,6 @@ import { DeepReadonly, IsFunction } from "./utils";
 import { LocaleInstance, ResourceBundle } from "./locale";
 import { EventMethods } from "./events";
 
-
 export interface Router<R> {
 	addRoute(route: R | R[]): void;
 	addRouteByRoute(route: R | R[], target: R, insert: 'after' | 'before'): void;
@@ -26,3 +25,14 @@ export interface SliceContext {
 	locale?: ResourceBundle;
 	routes?: RouteObject[];
 }
+
+export type Module = {
+	__esModule?: boolean;
+	ExportModule?: object;
+	default?: () => SliceContext;
+	[key: string]: unknown;
+}
+
+export type ModuleMap = Record<string, () => Promise<Module>>;
+
+export interface SliceModule {}

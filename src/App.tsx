@@ -1,6 +1,6 @@
 
 import { AppContext, AppCtx } from "./core/context"
-import Hello from "./pages/Hello"
+import { HelloWorld } from "./modules/Hello"
 
 interface AppProps {
   context: AppContext
@@ -9,7 +9,7 @@ interface AppProps {
 function App({ context }: AppProps) {
   return (
     <AppCtx.Provider value={context}>
-      <Hello />
+      <HelloWorld />
     </AppCtx.Provider>
   )
 }

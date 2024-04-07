@@ -95,7 +95,3 @@ class StorageOperator {
 
 export const localStorageOperator = new StorageOperator(localStorage)
 export const sessionStorageOperator = new StorageOperator(sessionStorage)
-
-/**
- * localStorage / sessionStorage / cookie
- */

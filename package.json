@@ -19,6 +19,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@types/crypto-js": "^4.2.2",
     "@types/i18next": "^13.0.0",
     "@types/lodash": "^4.14.202",
     "@types/react": "^18.2.56",
@@ -26,10 +27,17 @@
     "@typescript-eslint/eslint-plugin": "^7.0.2",
     "@typescript-eslint/parser": "^7.0.2",
     "@vitejs/plugin-react-swc": "^3.5.0",
+    "crypto-js": "^4.2.0",
     "eslint": "^8.56.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "msw": "^2.2.7",
     "typescript": "^5.2.2",
     "vite": "^5.1.4"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }

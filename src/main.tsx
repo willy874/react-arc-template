@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
 import './index.css'
-import { AppContext, SliceContext } from './core/context'
+import { AppContext } from './core/context'
 import { eventBus } from './library/events'
 import { router } from './library/router'
 import { locale } from './library/locale'
@@ -13,26 +13,23 @@ const appContext = {
   router,
 } satisfies AppContext
 
-type SliceModule = { default: () => SliceContext }
+async function enableMocking() {
+  if (process.env.NODE_ENV !== 'development') {
+    return
+  }
+  const { worker } = await import('./mocks')
+  return worker.start({ onUnhandledRequest: 'bypass' })
+}
 
 Promise.resolve()
+  .then(() => enableMocking())
+  .then(() => import('./modules'))
+  .then(({ registerModules }) => registerModules())
   .then(() => {
-    return Promise.all([
-      import('./pages/Login'),
-      import('./pages/User'),
-      import('./pages/Article'),
-    ])
-  })
-  .then((modules: SliceModule[]) => {
-    modules.forEach((module) => {
-      const slice = module.default()
-      if (slice.locale) locale.register(slice.locale)
-      if (slice.routes) router.addRoute(slice.routes)
-      if (slice.events) eventBus.addEvents(slice.events)
-    })
     ReactDOM.createRoot(document.getElementById('root')!).render(
       <React.StrictMode>
         <App context={appContext} />
       </React.StrictMode>,
     )
   })
+
