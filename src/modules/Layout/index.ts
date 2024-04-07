@@ -1,31 +1,22 @@
 import { DefineModule, ModuleContext } from "@/core/context";
 
 async function defineModuleExports() {
-  return {
-    services: import("./services"),
-  }
+  return {}
 }
 
 async function defineModuleContext(): Promise<ModuleContext> {
   return {}
 }
 
-function defineModuleDependencies() {
-  return {
-    Layout: () => import('@/modules/Layout'),
-  }
-}
-
 export default function getDynamicModule(): DefineModule {
   return {
     defineModuleExports,
     defineModuleContext,
-    defineModuleDependencies
   }
 }
 
 declare module "@/core/context" {
   interface ModuleSlices {
-    Article: GetDynamicModule<typeof defineModuleExports>
+    Layout: GetDynamicModule<typeof defineModuleExports>
   }
 }

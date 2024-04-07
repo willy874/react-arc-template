@@ -1,4 +1,3 @@
-import { createContext } from "react"
 import { RouteObject } from "react-router-dom";
 import { DeepReadonly, IsFunction } from "./utils";
 import { LocaleInstance, ResourceBundle } from "./locale";
@@ -17,22 +16,32 @@ export interface AppContext {
 	router: Router<RouteObject>;
 }
 
-export const AppCtx = createContext({} as AppContext)
-
-
-export interface SliceContext {
+export interface ModuleContext {
 	events?: Record<string, IsFunction>;
 	locale?: ResourceBundle;
 	routes?: RouteObject[];
 }
 
-export type Module = {
+export type DynamicRecord = Record<string, Promise<unknown> | unknown>
+
+export type DynamicModule = () => Promise<DynamicRecord> | DynamicRecord
+
+export type DefineModule = {
+	defineModuleContext?: () => Promise<ModuleContext>;
+	defineModuleExports?: DynamicModule;
+	defineModuleDependencies?: () => ModuleMap;
+}
+
+export type Module<T = undefined> = {
 	__esModule?: boolean;
-	ExportModule?: object;
-	default?: () => SliceContext;
+	default?: T;
 	[key: string]: unknown;
 }
 
-export type ModuleMap = Record<string, () => Promise<Module>>;
+export type ModuleMap = Record<string, () => Promise<Module<() => DefineModule>>>;
 
-export interface SliceModule {}
+export interface ModuleSlices {}
+
+export const modules = {} as ModuleSlices
+
+export type GetDynamicModule<T extends DynamicModule, M = Awaited<ReturnType<T>>> = { [K in keyof M]: Awaited<M[K]> }

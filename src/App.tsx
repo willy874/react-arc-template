@@ -1,14 +1,16 @@
 
-import { AppContext, AppCtx } from "./core/context"
-import { HelloWorld } from "./modules/Hello"
+import { useContext } from "react"
+import { AppCtx } from "./context"
+import { modules } from "./core/context"
 
-interface AppProps {
-  context: AppContext
-}
+const HelloWorld = modules.Hello.HelloWorld
 
-function App({ context }: AppProps) {
+interface AppProps {}
+
+function App({ ...props }: AppProps) {
+  const ctx = useContext(AppCtx)
   return (
-    <AppCtx.Provider value={context}>
+    <AppCtx.Provider value={{ ...props, ...ctx }}>
       <HelloWorld />
     </AppCtx.Provider>
   )

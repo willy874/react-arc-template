@@ -1,17 +1,6 @@
-import React from 'react'
+import React, { lazy } from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App'
 import './index.css'
-import { AppContext } from './core/context'
-import { eventBus } from './library/events'
-import { router } from './library/router'
-import { locale } from './library/locale'
-
-const appContext = {
-  locale,
-  eventBus,
-  router,
-} satisfies AppContext
 
 async function enableMocking() {
   if (process.env.NODE_ENV !== 'development') {
@@ -24,11 +13,14 @@ async function enableMocking() {
 Promise.resolve()
   .then(() => enableMocking())
   .then(() => import('./modules'))
-  .then(({ registerModules }) => registerModules())
-  .then(() => {
+  .then((module) => module.default())
+  .then(async () => ({
+    App: lazy(() => import('./App')),
+  }))
+  .then(({ App }) => {
     ReactDOM.createRoot(document.getElementById('root')!).render(
       <React.StrictMode>
-        <App context={appContext} />
+        <App />
       </React.StrictMode>,
     )
   })

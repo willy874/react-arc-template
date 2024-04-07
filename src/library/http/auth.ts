@@ -46,4 +46,6 @@ export function createAuthInstance() {
   
   instance.interceptors.request.use(requestSuccess, requestError)
   instance.interceptors.response.use(responseSuccess, responseError)
+
+  return instance
 }

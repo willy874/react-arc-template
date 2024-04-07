@@ -1,8 +1,9 @@
 import { DefineModule, ModuleContext } from "@/core/context";
+import { lazy } from "react";
 
 async function defineModuleExports() {
   return {
-    services: import("./services"),
+    HelloWorld: lazy(() => import('./HelloWorld')),
   }
 }
 
@@ -10,22 +11,15 @@ async function defineModuleContext(): Promise<ModuleContext> {
   return {}
 }
 
-function defineModuleDependencies() {
-  return {
-    Layout: () => import('@/modules/Layout'),
-  }
-}
-
 export default function getDynamicModule(): DefineModule {
   return {
     defineModuleExports,
-    defineModuleContext,
-    defineModuleDependencies
+    defineModuleContext
   }
 }
 
 declare module "@/core/context" {
   interface ModuleSlices {
-    Article: GetDynamicModule<typeof defineModuleExports>
+    Hello: GetDynamicModule<typeof defineModuleExports>
   }
 }

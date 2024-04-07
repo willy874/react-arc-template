@@ -1,5 +1,22 @@
-import { SliceContext } from "@/core/context";
+import { DefineModule, ModuleContext } from "@/core/context";
 
-export function getSlice(): SliceContext {
-  return {} as SliceContext
+async function defineModuleExports() {
+  return {}
+}
+
+async function defineModuleContext(): Promise<ModuleContext> {
+  return {}
+}
+
+export default function getDynamicModule(): DefineModule {
+  return {
+    defineModuleExports,
+    defineModuleContext,
+  }
+}
+
+declare module "@/core/context" {
+  interface ModuleSlices {
+    Shared: GetDynamicModule<typeof defineModuleExports>
+  }
 }
