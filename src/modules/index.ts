@@ -1,5 +1,3 @@
-import { DefineModule } from '@/core/context'
-
 function defineModuleDependencies() {
   return {
     Article: () => import('./Article'),
@@ -8,7 +6,7 @@ function defineModuleDependencies() {
   }
 }
 
-export default function getDynamicModule(): DefineModule {
+export default function getDynamicModule() {
   return {
     defineModuleDependencies
   }

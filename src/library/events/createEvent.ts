@@ -1,5 +1,5 @@
 import { EventMethods } from "../../core/events"
-import { EventFunction, IsFunction } from "../../core/utils"
+import { AnyFunction, EventFunction, IsFunction } from "../../core/utils"
 
 class EventBus {
   #queue: Record<string, EventFunction[] | undefined> = {};
@@ -72,13 +72,13 @@ export function createEvent<T extends Record<string, IsFunction>>(defines: T): E
   const eventBus = new EventBus()
   return {
     on: (name, callback) => {
-      return eventBus.on(name as string, callback)
+      return eventBus.on(name as string, callback as AnyFunction)
     },
     once: (name, callback) => {
-      return eventBus.on(name as string, callback, true)
+      return eventBus.on(name as string, callback as AnyFunction, true)
     },
     off: (name, callback) => {
-      return eventBus.off(name as string, callback)
+      return eventBus.off(name as string, callback as AnyFunction)
     },
     emit: (name, ...args) => {
       const isParams = eventDefines[name as keyof T]

@@ -1,6 +1,8 @@
 import React, { lazy } from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
+import getDynamicModule from './modules'
+import { registerModules } from './utils/dynamic-module'
 
 async function enableMocking() {
   if (process.env.NODE_ENV !== 'development') {
@@ -12,8 +14,7 @@ async function enableMocking() {
 
 Promise.resolve()
   .then(() => enableMocking())
-  .then(() => import('./modules'))
-  .then((module) => module.default())
+  .then(() => registerModules(getDynamicModule().defineModuleDependencies()))
   .then(async () => ({
     App: lazy(() => import('./App')),
   }))
