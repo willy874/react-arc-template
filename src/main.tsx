@@ -1,15 +1,15 @@
-import React, { lazy } from 'react'
-import ReactDOM from 'react-dom/client'
-import './index.css'
-import getDynamicModule from './modules'
-import { registerModules } from './utils/dynamic-module'
+import React, { lazy } from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import getDynamicModule from './modules';
+import { registerModules } from './utils/dynamic-module';
 
 async function enableMocking() {
   if (process.env.NODE_ENV !== 'development') {
-    return
+    return;
   }
-  const { worker } = await import('./mocks')
-  return worker.start({ onUnhandledRequest: 'bypass' })
+  const { worker } = await import('./mocks');
+  return worker.start({ onUnhandledRequest: 'bypass' });
 }
 
 Promise.resolve()
@@ -23,6 +23,5 @@ Promise.resolve()
       <React.StrictMode>
         <App />
       </React.StrictMode>,
-    )
-  })
-
+    );
+  });

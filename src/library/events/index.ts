@@ -1,3 +1,3 @@
 import { createEvent } from './createEvent';
 
-export const eventBus = createEvent({})
+export const eventBus = createEvent({});

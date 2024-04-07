@@ -1,4 +1,4 @@
-import { createInstance } from 'i18next'; 
+import { createInstance } from 'i18next';
 import { LocaleInstance } from '../../core/locale';
 
 export function createLocale(): LocaleInstance {
@@ -18,8 +18,8 @@ export function createLocale(): LocaleInstance {
           locale.addResourceBundle(lang, ns, src);
         }
       }
-    }
-  }
+    },
+  };
 }
 
 export const locale = createLocale();

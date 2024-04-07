@@ -1,40 +1,40 @@
 interface StorageOperatorOptions {
-  defaultValue?: Record<string, string | null>
-  emitter?: EventTarget
-  channel?: string
+  defaultValue?: Record<string, string | null>;
+  emitter?: EventTarget;
+  channel?: string;
 }
 interface StorageMessageOptions {
-  key: string
-  value: string | null
-  storage: Storage
+  key: string;
+  value: string | null;
+  storage: Storage;
 }
 
-const STORAGE_CHANNEL = 'STORAGE_CHANNEL'
+const STORAGE_CHANNEL = 'STORAGE_CHANNEL';
 
 class StorageOperator {
-  private emitter: EventTarget
-  private channel: BroadcastChannel
+  private emitter: EventTarget;
+  private channel: BroadcastChannel;
 
   constructor(
     private storage: Storage,
     options: StorageOperatorOptions = {},
   ) {
-    const { emitter = new EventTarget(), channel = STORAGE_CHANNEL, defaultValue = {} } = options
-    this.emitter = emitter
-    this.channel = new BroadcastChannel(channel)
+    const { emitter = new EventTarget(), channel = STORAGE_CHANNEL, defaultValue = {} } = options;
+    this.emitter = emitter;
+    this.channel = new BroadcastChannel(channel);
     for (const key in defaultValue) {
-      const value = defaultValue[key]
+      const value = defaultValue[key];
       if (value !== null && this.storage.getItem(key) === null) {
-        this.storage.setItem(key, value)
+        this.storage.setItem(key, value);
       }
     }
     this.channel.onmessage = (event) => {
-      const { key, value, storage } = event.data as StorageMessageOptions
+      const { key, value, storage } = event.data as StorageMessageOptions;
       if (this.storage === storage) {
-        return
+        return;
       }
-      this.setItem(key, value)
-    }
+      this.setItem(key, value);
+    };
   }
 
   emit(init: StorageEventInit): void {
@@ -42,56 +42,56 @@ class StorageOperator {
       storageArea: this.storage,
       url: window.location.href,
       ...init,
-    }
-    const event = new StorageEvent('storage', options)
-    this.emitter.dispatchEvent(event)
+    };
+    const event = new StorageEvent('storage', options);
+    this.emitter.dispatchEvent(event);
   }
 
   on(callback: (event: StorageEvent) => void): () => void {
     const onStorage = (event: Event) => {
       if (event instanceof StorageEvent) {
         if (event.storageArea === this.storage) {
-          callback(event)
+          callback(event);
         } else {
-          this.storage.setItem(event.key!, event.newValue!)
+          this.storage.setItem(event.key!, event.newValue!);
         }
       }
-    }
-    this.emitter.addEventListener('storage', onStorage)
+    };
+    this.emitter.addEventListener('storage', onStorage);
     return () => {
-      this.emitter.removeEventListener('storage', onStorage)
-    }
+      this.emitter.removeEventListener('storage', onStorage);
+    };
   }
 
   getItem(key: string): string | null {
-    return this.storage.getItem(key)
+    return this.storage.getItem(key);
   }
 
   setItem(key: string, value: string | null): void {
-    const oldValue = this.storage.getItem(key)
+    const oldValue = this.storage.getItem(key);
     if (value === null) {
-      this.storage.removeItem(key)
+      this.storage.removeItem(key);
     } else {
-      this.storage.setItem(key, value)
+      this.storage.setItem(key, value);
     }
-    this.emit({ key, newValue: value, oldValue })
+    this.emit({ key, newValue: value, oldValue });
     this.channel.postMessage({
       key,
       value,
       storage: this.storage,
-    } satisfies StorageMessageOptions)
+    } satisfies StorageMessageOptions);
   }
 
   removeItem(key: string): void {
-    this.setItem(key, null)
+    this.setItem(key, null);
   }
 
   clear(): void {
     Object.keys(this.storage).forEach((key) => {
-      this.setItem(key, null)
-    })
+      this.setItem(key, null);
+    });
   }
 }
 
-export const localStorageOperator = new StorageOperator(localStorage)
-export const sessionStorageOperator = new StorageOperator(sessionStorage)
+export const localStorageOperator = new StorageOperator(localStorage);
+export const sessionStorageOperator = new StorageOperator(sessionStorage);

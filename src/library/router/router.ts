@@ -4,39 +4,39 @@ import { DeepReadonly } from '../../core/utils';
 
 export class Router<R extends object> implements IRouter<R> {
   constructor(private readonly routes: R[] = []) {
-    this.routes = routes
+    this.routes = routes;
   }
 
   addRoute(route: R | R[]) {
-    const routes = arrafi(route)
+    const routes = arrafi(route);
     return this.routes.push(...routes);
   }
 
   addRouteByRoute(route: R | R[], target: R, insert: 'after' | 'before' = 'after') {
-    const routes = arrafi(route)
-    const result = findNode(this.routes, target)
+    const routes = arrafi(route);
+    const result = findNode(this.routes, target);
     if (result) {
-      const [target, index] = result
+      const [target, index] = result;
       if (insert === 'after') {
-        target.splice(index + 1, 0, ...routes)
+        target.splice(index + 1, 0, ...routes);
       } else {
-        target.splice(index, 0, ...routes)
+        target.splice(index, 0, ...routes);
       }
-      return
+      return;
     }
-    throw new Error('Route not found')
+    throw new Error('Route not found');
   }
 
   removeRoute(route: R) {
-    const result = findNode(this.routes, route)
+    const result = findNode(this.routes, route);
     if (result) {
-      const [target, index] = result
-      return target.splice(index, 1)[0]
+      const [target, index] = result;
+      return target.splice(index, 1)[0];
     }
-    throw new Error('Route not found')
+    throw new Error('Route not found');
   }
 
   getRoutes(): DeepReadonly<R[]> {
-    return this.routes
+    return this.routes;
   }
 }

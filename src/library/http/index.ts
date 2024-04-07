@@ -1,5 +1,5 @@
-import { createAuthInstance } from "./auth"
+import { createAuthInstance } from './auth';
 
-const authInstance = createAuthInstance()
+const authInstance = createAuthInstance();
 
-export { authInstance }
+export { authInstance };

@@ -1,13 +1,15 @@
-type Resource = string | {
-    [key: string]: Resource;
-}
+type Resource =
+  | string
+  | {
+      [key: string]: Resource;
+    };
 type NamespaceResource = {
-    [lang: string]: Resource;
-}
+  [lang: string]: Resource;
+};
 export type ResourceBundle = {
-    [ns: string]: NamespaceResource;
-}
+  [ns: string]: NamespaceResource;
+};
 
 export interface LocaleInstance {
-    register: (resource: ResourceBundle) => void;
+  register: (resource: ResourceBundle) => void;
 }

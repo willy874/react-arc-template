@@ -1,5 +1,5 @@
-import { EventMethods } from "../../core/events"
-import { AnyFunction, EventFunction, IsFunction } from "../../core/utils"
+import { EventMethods } from '../../core/events';
+import { AnyFunction, EventFunction, IsFunction } from '../../core/utils';
 
 class EventBus {
   #queue: Record<string, EventFunction[] | undefined> = {};
@@ -66,40 +66,39 @@ class EventBus {
   }
 }
 
-
 export function createEvent<T extends Record<string, IsFunction>>(defines: T): EventMethods<T> {
-  const eventDefines = { ...defines } as { [K in keyof T]: T[K] }
-  const eventBus = new EventBus()
+  const eventDefines = { ...defines } as { [K in keyof T]: T[K] };
+  const eventBus = new EventBus();
   return {
     on: (name, callback) => {
-      return eventBus.on(name as string, callback as AnyFunction)
+      return eventBus.on(name as string, callback as AnyFunction);
     },
     once: (name, callback) => {
-      return eventBus.on(name as string, callback as AnyFunction, true)
+      return eventBus.on(name as string, callback as AnyFunction, true);
     },
     off: (name, callback) => {
-      return eventBus.off(name as string, callback as AnyFunction)
+      return eventBus.off(name as string, callback as AnyFunction);
     },
     emit: (name, ...args) => {
-      const isParams = eventDefines[name as keyof T]
+      const isParams = eventDefines[name as keyof T];
       if (isParams(...args)) {
-        return eventBus.emit(name as string, ...args)
+        return eventBus.emit(name as string, ...args);
       }
-      throw new Error(`Event "${String(name)}" params not match`)
+      throw new Error(`Event "${String(name)}" params not match`);
     },
     eventCount: (name) => {
-      return eventBus.eventCount(name as string)
+      return eventBus.eventCount(name as string);
     },
     eventNames: () => {
-      return eventBus.eventNames()
+      return eventBus.eventNames();
     },
     getListeners: (name) => {
-      return eventBus.getListeners(name as string)
+      return eventBus.getListeners(name as string);
     },
     addEvents: (events) => {
       Object.keys(events).forEach((name) => {
-        eventDefines[name as keyof T] = events[name as keyof T]
-      })
-    }
-  }
+        eventDefines[name as keyof T] = events[name as keyof T];
+      });
+    },
+  };
 }
