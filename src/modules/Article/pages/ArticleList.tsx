@@ -1,7 +1,4 @@
-import { modules } from '@/core/context';
-
-const Layout = modules.Layout.Layout;
-const Header = modules.Layout.Header;
+import { Header, Layout } from '../modules/Layout';
 
 export default function ArticleList() {
   return (

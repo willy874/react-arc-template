@@ -41,4 +41,5 @@ export async function registerModules(map: ModuleMap) {
       }
     }
   }
+  return modules;
 }

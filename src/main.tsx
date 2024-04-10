@@ -19,10 +19,9 @@ Promise.resolve()
     const { defineModuleDependencies } = getDynamicModule();
     return registerModules(defineModuleDependencies());
   })
-  .then(async () => ({
-    App: lazy(() => import('./App')),
-  }))
-  .then(({ App }) => {
+  .then((modules) => {
+    console.log(modules);
+    const App = lazy(() => import('./App'));
     ReactDOM.createRoot(document.getElementById('root')!).render(
       <React.StrictMode>
         <App />
