@@ -1,21 +1,12 @@
-import { DefineModule, ModuleContext } from '@/core/context';
-import { lazy } from 'react';
+import { DefineModule } from '@/core/context';
 
-async function defineModuleExports() {
-  return {
-    Layout: lazy(() => import('./components/Layout')),
-    Header: lazy(() => import('./components/Header')),
-  };
-}
-
-async function defineModuleContext(): Promise<ModuleContext> {
-  return {};
+function defineModuleExports() {
+  return import('./ModuleExports');
 }
 
 export default function getDynamicModule(): DefineModule {
   return {
     defineModuleExports,
-    defineModuleContext,
   };
 }
 

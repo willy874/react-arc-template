@@ -1,17 +1,11 @@
 import { DefineModule, ModuleContext } from '@/core/context';
 
-import { routes } from './routes';
-
-async function defineModuleExports() {
-  return {
-    services: import('./services'),
-  };
+function defineModuleExports() {
+  return import('./services');
 }
 
-async function defineModuleContext(): Promise<ModuleContext> {
-  return {
-    routes,
-  };
+function defineModuleContext(): Promise<ModuleContext> {
+  return import('./ModuleContext');
 }
 
 function defineModuleDependencies() {
