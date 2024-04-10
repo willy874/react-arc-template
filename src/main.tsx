@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import getDynamicModule from './modules';
 import { registerModules } from './utils/dynamic-module';
-// import App from './App';
 
 async function enableMocking() {
   if (process.env.NODE_ENV !== 'development') {
@@ -19,8 +18,7 @@ Promise.resolve()
     const { defineModuleDependencies } = getDynamicModule();
     return registerModules(defineModuleDependencies());
   })
-  .then((modules) => {
-    console.log(modules);
+  .then(() => {
     const App = lazy(() => import('./App'));
     ReactDOM.createRoot(document.getElementById('root')!).render(
       <React.StrictMode>
