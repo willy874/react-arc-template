@@ -1,10 +1,10 @@
-import { DefineModule, ModuleContext } from '@/core/context';
+import { DefineModule } from '@/core/context';
 
 async function defineModuleExports() {
   return {};
 }
 
-async function defineModuleContext(): Promise<ModuleContext> {
+async function defineModuleContext() {
   return {};
 }
 

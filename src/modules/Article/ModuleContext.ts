@@ -11,3 +11,7 @@ export const routes = [
     Component: ArticleDetail,
   },
 ];
+
+export const events = {
+  'article:fetch': (id: string) => typeof id === 'string',
+};

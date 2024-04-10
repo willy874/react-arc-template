@@ -1,10 +1,8 @@
-import { DefineModule } from '@/core/context';
-
 function defineModuleExports() {
   return import('./ModuleExports');
 }
 
-export default function getDynamicModule(): DefineModule {
+export default function getDynamicModule() {
   return {
     defineModuleExports,
   };

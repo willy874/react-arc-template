@@ -8,5 +8,5 @@ export interface EventMethods<D extends Record<string, IsFunction>> {
   eventCount: <T extends keyof D>(name: T) => number;
   eventNames: () => (keyof D)[];
   getListeners: <T extends keyof D>(name: T) => ((...args: Parameters<D[T]>) => void)[];
-  addEvents: (events: D) => void;
+  addEvents: (events: Record<string, IsFunction>) => void;
 }

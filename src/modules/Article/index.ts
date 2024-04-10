@@ -1,10 +1,10 @@
-import { DefineModule, ModuleContext } from '@/core/context';
+import { DefineModule } from '@/core/context';
 
 function defineModuleExports() {
-  return import('./services');
+  return import('./ModuleExports');
 }
 
-function defineModuleContext(): Promise<ModuleContext> {
+function defineModuleContext() {
   return import('./ModuleContext');
 }
 
@@ -25,5 +25,8 @@ export default function getDynamicModule(): DefineModule {
 declare module '@/core/context' {
   interface ModuleSlices {
     Article: GetDynamicModule<typeof defineModuleExports>;
+  }
+  interface SliceEventMap {
+    Article: GetModuleContextEventMap<typeof defineModuleContext>;
   }
 }

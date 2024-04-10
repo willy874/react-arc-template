@@ -40,8 +40,14 @@ export type Module<T = undefined> = {
 
 export type ModuleMap = Record<string, () => Promise<Module<() => DefineModule>>>;
 
-export interface ModuleSlices extends Record<string, any> {}
+export interface ModuleSlices {}
 
 export const modules = {} as ModuleSlices;
 
 export type GetDynamicModule<T extends DynamicModule, M = Awaited<ReturnType<T>>> = { [K in keyof M]: Awaited<M[K]> };
+
+export interface SliceEventMap {}
+
+export type GetModuleContextEventMap<T extends () => Promise<ModuleContext>> = Required<
+  Awaited<ReturnType<T>>
+>['events'];
