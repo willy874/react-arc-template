@@ -1,5 +1,5 @@
 import { RouteObject } from 'react-router-dom';
-import { DeepReadonly, IsFunction } from './utils';
+import { IsFunction } from './utils';
 import { LocaleInstance, ResourceBundle } from './locale';
 import { EventMethods } from './events';
 
@@ -7,7 +7,7 @@ export interface Router<R> {
   addRoute(route: R | R[]): void;
   addRouteByRoute(route: R | R[], target: R, insert: 'after' | 'before'): void;
   removeRoute(route: R | R[]): void;
-  getRoutes(): DeepReadonly<R[]>;
+  getRoutes(): R[];
 }
 
 export interface AppContext {
@@ -40,7 +40,7 @@ export type Module<T = undefined> = {
 
 export type ModuleMap = Record<string, () => Promise<Module<() => DefineModule>>>;
 
-export interface ModuleSlices {}
+export interface ModuleSlices extends Record<string, any> {}
 
 export const modules = {} as ModuleSlices;
 

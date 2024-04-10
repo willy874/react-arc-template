@@ -2,13 +2,18 @@ import { DefineModule, ModuleContext } from '@/core/context';
 import { lazy } from 'react';
 
 async function defineModuleExports() {
-  return {
-    HelloWorld: lazy(() => import('./HelloWorld')),
-  };
+  return {};
 }
 
 async function defineModuleContext(): Promise<ModuleContext> {
-  return {};
+  return {
+    routes: [
+      {
+        path: '/',
+        Component: lazy(() => import('./HelloWorld')),
+      },
+    ],
+  };
 }
 
 export default function getDynamicModule(): DefineModule {

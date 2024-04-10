@@ -1,7 +1,11 @@
 import { DefineModule, ModuleContext } from '@/core/context';
+import { lazy } from 'react';
 
 async function defineModuleExports() {
-  return {};
+  return {
+    Layout: lazy(() => import('./components/Layout')),
+    Header: lazy(() => import('./components/Header')),
+  };
 }
 
 async function defineModuleContext(): Promise<ModuleContext> {

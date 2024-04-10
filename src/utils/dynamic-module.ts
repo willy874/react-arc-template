@@ -10,21 +10,23 @@ function registerModuleContext(slice: ModuleContext) {
   if (slice.events) eventBus.addEvents(slice.events);
 }
 
-async function injectModule(dynamicModules: DynamicRecord) {
+async function injectModule(name: string, dynamicModules: DynamicRecord) {
+  const newModules: Record<string, unknown> = {};
+  Reflect.set(modules, name, newModules);
   for (const key in dynamicModules) {
     const module = dynamicModules[key];
     if (module instanceof Promise) {
       module.then((m) => {
-        Reflect.set(modules, key, m);
+        newModules[key] = m;
       });
     } else {
-      Reflect.set(modules, key, module);
+      newModules[key] = module;
     }
   }
 }
 
 export async function registerModules(map: ModuleMap) {
-  for (const key in modules) {
+  for (const key in map) {
     const getDynamicModule = (await map?.[key]?.())?.default;
     if (getDynamicModule) {
       const { defineModuleDependencies, defineModuleExports, defineModuleContext } = getDynamicModule();
@@ -32,7 +34,7 @@ export async function registerModules(map: ModuleMap) {
         await registerModules(await defineModuleDependencies());
       }
       if (defineModuleExports) {
-        await injectModule(await defineModuleExports());
+        await injectModule(key, await defineModuleExports());
       }
       if (defineModuleContext) {
         registerModuleContext(await defineModuleContext());

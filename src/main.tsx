@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import getDynamicModule from './modules';
 import { registerModules } from './utils/dynamic-module';
+// import App from './App';
 
 async function enableMocking() {
   if (process.env.NODE_ENV !== 'development') {
@@ -14,7 +15,10 @@ async function enableMocking() {
 
 Promise.resolve()
   .then(() => enableMocking())
-  .then(() => registerModules(getDynamicModule().defineModuleDependencies()))
+  .then(() => {
+    const { defineModuleDependencies } = getDynamicModule();
+    return registerModules(defineModuleDependencies());
+  })
   .then(async () => ({
     App: lazy(() => import('./App')),
   }))

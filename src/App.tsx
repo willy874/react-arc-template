@@ -1,16 +1,13 @@
 import { useContext } from 'react';
 import { AppCtx } from './context';
-import { modules } from './core/context';
+import RouterProvider from './library/router/RouterProvider';
 
-const HelloWorld = modules.Hello.HelloWorld;
-
-interface AppProps {}
-
-function App({ ...props }: AppProps) {
+function App() {
   const ctx = useContext(AppCtx);
+
   return (
-    <AppCtx.Provider value={{ ...props, ...ctx }}>
-      <HelloWorld />
+    <AppCtx.Provider value={ctx}>
+      <RouterProvider router={ctx.router} />
     </AppCtx.Provider>
   );
 }

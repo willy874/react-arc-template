@@ -1,6 +1,5 @@
 import { findNode, arrafi } from '../../utils/node';
 import { Router as IRouter } from '../../core/context';
-import { DeepReadonly } from '../../core/utils';
 
 export class Router<R extends object> implements IRouter<R> {
   constructor(private readonly routes: R[] = []) {
@@ -36,7 +35,7 @@ export class Router<R extends object> implements IRouter<R> {
     throw new Error('Route not found');
   }
 
-  getRoutes(): DeepReadonly<R[]> {
+  getRoutes(): R[] {
     return this.routes;
   }
 }
